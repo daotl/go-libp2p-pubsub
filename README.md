@@ -1,17 +1,17 @@
 # go-libp2p-pubsub
 
+> DAOT Labs' fork of [libp2p/go-libp2p-pubsub](https://github.com/libp2p/go-libp2p-pubsub)
+
 <p align="left">
   <a href="http://protocol.ai"><img src="https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square" /></a>
-  <a href="http://libp2p.io/"><img src="https://img.shields.io/badge/project-libp2p-yellow.svg?style=flat-square" /></a>
-  <a href="http://webchat.freenode.net/?channels=%23libp2p"><img src="https://img.shields.io/badge/freenode-%23libp2p-yellow.svg?style=flat-square" /></a>
-  <a href="https://discuss.libp2p.io"><img src="https://img.shields.io/discourse/https/discuss.libp2p.io/posts.svg?style=flat-square"/></a>
+  <a href="http://libp2p.io/"><img src="https://img.shields.io/badge/project-libp2p-yellow.svg?style=flat-square" /></a> 
 </p>
 
 <p align="left">
-  <a href="https://codecov.io/gh/libp2p/go-libp2p-pubsub"><img src="https://codecov.io/gh/libp2p/go-libp2p-pubsub/branch/master/graph/badge.svg"></a>
-  <a href="https://goreportcard.com/report/github.com/libp2p/go-libp2p-pubsub"><img src="https://goreportcard.com/badge/github.com/libp2p/go-libp2p-pubsub" /></a>
+  <a href="https://codecov.io/gh/daotl/go-libp2p-pubsub"><img src="https://codecov.io/gh/daotl/go-libp2p-pubsub/branch/master/graph/badge.svg"></a>
+  <a href="https://goreportcard.com/report/github.com/daotl/go-libp2p-pubsub"><img src="https://goreportcard.com/badge/github.com/daotl/go-libp2p-pubsub" /></a>
   <a href="https://github.com/RichardLitt/standard-readme"><img src="https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square" /></a>
-  <a href="https://godoc.org/github.com/libp2p/go-libp2p-pubsub"><img src="http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square" /></a>
+  <a href="https://godoc.org/github.com/daotl/go-libp2p-pubsub"><img src="http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square" /></a>
   <a href=""><img src="https://img.shields.io/badge/golang-%3E%3D1.14.0-orange.svg?style=flat-square" /></a>
   <br>
 </p>
@@ -24,9 +24,7 @@ This repo contains the canonical pubsub implementation for libp2p. We currently 
 
 ## Repo Lead Maintainer
 
-[@vyzo](https://github.com/vyzo/)
-
-> This repo follows the [Repo Lead Maintainer Protocol](https://github.com/ipfs/team-mgmt/blob/master/LEAD_MAINTAINER_PROTOCOL.md)
+[@huiscool](https://github.com/huiscool/)
 
 ## Table of Contents
 
@@ -45,8 +43,13 @@ This repo contains the canonical pubsub implementation for libp2p. We currently 
 
 ## Install
 
+```sh
+go get github.com/daotl/go-libp2p-pubsub
 ```
-go get github.com/libp2p/go-libp2p-pubsub
+
+And add the following line to your `go.mod`:
+```
+replace github.com/libp2p/go-libp2p-pubsub => github.com/daotl/go-libp2p-kbucket {{VERSION}}
 ```
 
 ## Usage
@@ -59,7 +62,7 @@ https://github.com/libp2p/go-libp2p/tree/master/examples/pubsub
 
 ## Documentation
 
-See the [libp2p specs](https://github.com/libp2p/specs/tree/master/pubsub) for high level documentation and [godoc](https://godoc.org/github.com/libp2p/go-libp2p-pubsub) for API documentation.
+See the [libp2p specs](https://github.com/libp2p/specs/tree/master/pubsub) for high level documentation and [godoc](https://pkg.go.dev/github.com/daotl/go-libp2p-pubsub) for API documentation.
 
 ### In this repo, you will find
 
@@ -141,9 +144,7 @@ ps, err := pubsub.NewGossipSub(..., pubsub.WithEventTracer(tracer))
 
 ## Contribute
 
-Contributions welcome. Please check out [the issues](https://github.com/libp2p/go-libp2p-pubsub/issues).
-
-Check out our [contributing document](https://github.com/libp2p/community/blob/master/contributing.md) for more information on how we work, and about contributing in general. Please be aware that all interactions related to multiformats are subject to the IPFS [Code of Conduct](https://github.com/ipfs/community/blob/master/code-of-conduct.md).
+Contributions welcome. Please check out [the issues](https://github.com/daotl/go-libp2p-pubsub/issues).
 
 Small note: If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
 
@@ -153,3 +154,9 @@ The go-libp2p-pubsub project is dual-licensed under Apache 2.0 and MIT terms:
 
 - Apache License, Version 2.0, ([LICENSE-APACHE](./LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
 - MIT license ([LICENSE-MIT](./LICENSE-MIT) or http://opensource.org/licenses/MIT)
+
+Copyright for modified portions of this fork are held by [DAOT Labs, 2020]. 
+
+All other copyright for this fork are held by [Jeromy Johnson, 2016] as part of the original [go-libp2p-pubsub](https://github.com/libp2p/go-libp2p-pubsub) project.
+
+All rights reserved.
