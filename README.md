@@ -49,12 +49,12 @@ go get github.com/daotl/go-libp2p-pubsub
 
 And add the following line to your `go.mod`:
 ```
-replace github.com/libp2p/go-libp2p-pubsub => github.com/daotl/go-libp2p-kbucket {{VERSION}}
+replace github.com/libp2p/go-libp2p-pubsub => github.com/daotl/go-libp2p-pubsub {{VERSION}}
 ```
 
 ## Usage
 
-To be used for messaging in p2p instrastructure (as part of libp2p) such as IPFS, Ethereum, other blockchains, etc.
+To be used for messaging in p2p infrastructure (as part of libp2p) such as IPFS, Ethereum, other blockchains, etc.
 
 ### Example
 
