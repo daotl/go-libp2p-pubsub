@@ -17,27 +17,39 @@ var (
 	RandomSubD = 6
 )
 
-// NewRandomSub returns a new PubSub object using RandomSubRouter as the router.
-func NewRandomSub(ctx context.Context, h host.Host, size int, opts ...Option) (*PubSub, error) {
+// NewRandomSubWithProtocols returns a new PubSub object using RandomSubRouter as the router
+// with the protocols specified.
+func NewRandomSubWithProtocols(
+	ctx context.Context, h host.Host, randomSubID, floodSubID protocol.ID, size int, opts ...Option,
+) (*PubSub, error) {
 	rt := &RandomSubRouter{
-		size:  size,
-		peers: make(map[peer.ID]protocol.ID),
+		randomSubID: randomSubID,
+		floodSubID:  floodSubID,
+		size:        size,
+		peers:       make(map[peer.ID]protocol.ID),
 	}
 	return NewPubSub(ctx, h, rt, opts...)
+}
+
+// NewRandomSub returns a new PubSub object using RandomSubRouter as the router.
+func NewRandomSub(ctx context.Context, h host.Host, size int, opts ...Option) (*PubSub, error) {
+	return NewRandomSubWithProtocols(ctx, h, RandomSubID, FloodSubID, size, opts...)
 }
 
 // RandomSubRouter is a router that implements a random propagation strategy.
 // For each message, it selects the square root of the network size peers, with a min of RandomSubD,
 // and forwards the message to them.
 type RandomSubRouter struct {
-	p      *PubSub
-	peers  map[peer.ID]protocol.ID
-	size   int
-	tracer *pubsubTracer
+	p           *PubSub
+	randomSubID protocol.ID
+	floodSubID  protocol.ID
+	peers       map[peer.ID]protocol.ID
+	size        int
+	tracer      *pubsubTracer
 }
 
 func (rs *RandomSubRouter) Protocols() []protocol.ID {
-	return []protocol.ID{RandomSubID, FloodSubID}
+	return []protocol.ID{rs.randomSubID, rs.floodSubID}
 }
 
 func (rs *RandomSubRouter) Attach(p *PubSub) {
@@ -68,9 +80,9 @@ func (rs *RandomSubRouter) EnoughPeers(topic string, suggested int) bool {
 	// count floodsub and randomsub peers
 	for p := range tmap {
 		switch rs.peers[p] {
-		case FloodSubID:
+		case rs.floodSubID:
 			fsPeers++
-		case RandomSubID:
+		case rs.randomSubID:
 			rsPeers++
 		}
 	}
@@ -114,7 +126,7 @@ func (rs *RandomSubRouter) Publish(msg *Message) {
 			continue
 		}
 
-		if rs.peers[p] == FloodSubID {
+		if rs.peers[p] == rs.floodSubID {
 			tosend[p] = struct{}{}
 		} else {
 			rspeers[p] = struct{}{}
