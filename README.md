@@ -33,7 +33,7 @@ This repo contains the canonical pubsub implementation for libp2p. We currently 
 
 - [Install](#install)
 - [Usage](#usage)
-- [Implementations](#implementations)
+- [Example](#example)
 - [Documentation](#documentation)
 - [Tracing](#tracing)
 - [Contribute](#contribute)
