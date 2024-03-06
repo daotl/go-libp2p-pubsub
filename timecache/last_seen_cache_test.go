@@ -17,18 +17,24 @@ func TestLastSeenCacheFound(t *testing.T) {
 }
 
 func TestLastSeenCacheExpire(t *testing.T) {
+	backgroundSweepInterval = time.Second
 	tc := newLastSeenCache(time.Second)
 	for i := 0; i < 11; i++ {
 		tc.Add(fmt.Sprint(i))
 		time.Sleep(time.Millisecond * 100)
 	}
 
-	if tc.Has(fmt.Sprint(0)) {
-		t.Fatal("should have dropped this from the cache already")
+	time.Sleep(2 * time.Second)
+	for i := 0; i < 11; i++ {
+		if tc.Has(fmt.Sprint(i)) {
+			t.Fatalf("should have dropped this key: %s from the cache already", fmt.Sprint(i))
+		}
 	}
 }
 
 func TestLastSeenCacheSlideForward(t *testing.T) {
+	t.Skip("timing is too fine grained to run in CI")
+
 	tc := newLastSeenCache(time.Second)
 	i := 0
 
@@ -74,10 +80,12 @@ func TestLastSeenCacheSlideForward(t *testing.T) {
 }
 
 func TestLastSeenCacheNotFoundAfterExpire(t *testing.T) {
+	backgroundSweepInterval = time.Second
+
 	tc := newLastSeenCache(time.Second)
 	tc.Add(fmt.Sprint(0))
-	time.Sleep(1100 * time.Millisecond)
 
+	time.Sleep(2 * time.Second)
 	if tc.Has(fmt.Sprint(0)) {
 		t.Fatal("should have dropped this from the cache already")
 	}

@@ -17,22 +17,29 @@ func TestFirstSeenCacheFound(t *testing.T) {
 }
 
 func TestFirstSeenCacheExpire(t *testing.T) {
+	backgroundSweepInterval = time.Second
+
 	tc := newFirstSeenCache(time.Second)
-	for i := 0; i < 11; i++ {
+	for i := 0; i < 10; i++ {
 		tc.Add(fmt.Sprint(i))
 		time.Sleep(time.Millisecond * 100)
 	}
 
-	if tc.Has(fmt.Sprint(0)) {
-		t.Fatal("should have dropped this from the cache already")
+	time.Sleep(2 * time.Second)
+	for i := 0; i < 10; i++ {
+		if tc.Has(fmt.Sprint(i)) {
+			t.Fatalf("should have dropped this key: %s from the cache already", fmt.Sprint(i))
+		}
 	}
 }
 
 func TestFirstSeenCacheNotFoundAfterExpire(t *testing.T) {
+	backgroundSweepInterval = time.Second
+
 	tc := newFirstSeenCache(time.Second)
 	tc.Add(fmt.Sprint(0))
-	time.Sleep(1100 * time.Millisecond)
 
+	time.Sleep(2 * time.Second)
 	if tc.Has(fmt.Sprint(0)) {
 		t.Fatal("should have dropped this from the cache already")
 	}
